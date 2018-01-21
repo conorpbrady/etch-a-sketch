@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.container {
+  width: 480px;
+}
+.controls {
+  display: block;
+}
+.square {
+
+  float: left;
+  border: 1px solid black;
+}
+.clearDiv {
+  clear:both;
+}
+</style>
+</head>
+<body>
+  <div id="controls">
+    <button onclick="clearCells()" id="clear">Clear</button>
+    <button onclick="changeSize()" id="size">Change Size</button>
+  </div>
+  <div id="container">
+
+  </div>
+
+
+
+  <script>
+  const container = document.querySelector("#container");
+  function createDivs(size) {
+    for(i=1;i<=size;i++) {
+      for(j=1;j<=size;j++) {
+        div = document.createElement("div");
+        div.setAttribute("class","square");
+        //div.setAttribute("id", i+"x"+j);
+        width = 960 / size;
+        div.style.width = width+"px"
+        div.style.height = width+"px"
+        container.appendChild(div);
+      }
+      clearDiv = document.createElement("div");
+      clearDiv.setAttribute("class","clearDiv");
+      container.appendChild(clearDiv);
+    }
+    squares = document.querySelectorAll(".square");
+
+  }
+
+  let changeColor = (e) => {
+    e.target.style.backgroundColor = randomColor();
+  }
+  function randomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+
+  }
+  function clearCells() {
+    squares.forEach((square) => {
+      square.style.backgroundColor = "white";
+    })
+  }
+  function changeSize() {
+    size = prompt("Enter size for grid");
+    removeDivs();
+    createDivs(size);
+    addListeners();
+  }
+  function removeDivs() {
+    var divs = document.querySelector("#container");
+    while(divs.firstChild) {
+      divs.removeChild(divs.firstChild);
+    }
+  }
+
+  function addListeners() {
+    squares.forEach(square => {
+      square.addEventListener('mouseenter', changeColor)
+    });
+
+  }
+    var squares;
+    createDivs(16);
+    addListeners();
+  </script>
+</body>
+
+</html>
